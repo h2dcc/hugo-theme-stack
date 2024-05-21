@@ -12,7 +12,7 @@ params:
 
     footer:
         since:
-        customText:
+        customText: 
 
     dateFormat:
         published: Jan 02, 2006
