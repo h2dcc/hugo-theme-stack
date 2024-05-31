@@ -1,5 +1,9 @@
 {{- $ThemeVersion := "3.26.0" -}}
 <footer class="site-footer">
+    {{ $scratch := newScratch }}
+    {{ range (where .Site.Pages "Kind" "page" )}}
+    {{ $scratch.Add "total" .WordCount }}
+    {{ end }}
     <section class="copyright">
         &copy; 
         {{ if and (.Site.Params.footer.since) (ne .Site.Params.footer.since (int (now.Format "2006"))) }}
@@ -17,7 +21,7 @@
         {{- $Theme := printf `<b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="%s">Stack</a></b>` $ThemeVersion -}}
         {{- $DesignedBy := `<a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>` -}}
 
-        Built with Hugo & Stack<br />
-        Powered by Github
+        Built with Hugo & Stack, Powered by Github.<br />
+        共 {{ len (where .Site.RegularPages "Section" "post") }} 篇文章, 总计 {{$scratch.Get "total" }} 字.
     </section>
 </footer>
