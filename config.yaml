@@ -78,7 +78,7 @@ params:
             visitor:
             avatar:
             emoji:
-                - https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo
+                - https://cdn.jsdmirror.com/gh/walinejs/emojis/weibo
             requiredMeta:
                 - nick
                 - mail
