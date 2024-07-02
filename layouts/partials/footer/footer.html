@@ -4,6 +4,8 @@
     {{ range (where .Site.Pages "Kind" "page" )}}
     {{ $scratch.Add "total" .WordCount }}
     {{ end }}
+
+ 
     <section class="copyright">
         &copy; 
         {{ if and (.Site.Params.footer.since) (ne .Site.Params.footer.since (int (now.Format "2006"))) }}
@@ -16,13 +18,13 @@
         {{ with .Site.Params.footer.customText }}
             {{ . | safeHTML }} <br/>
         {{ end }}
-
+      
         {{- $Generator := `<a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>` -}}
         {{- $Theme := printf `<b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="%s">Stack</a></b>` $ThemeVersion -}}
         {{- $DesignedBy := `<a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>` -}}
 
         Built with Hugo & Stack, Powered by Github.<br>
         共 {{ len (where .Site.RegularPages "Section" "post") }} 篇文章, 总计 {{$scratch.Get "total" }} 字. <br>
-        <a href="https://blogscn.fun/" title="BLOGS·CN" target="_blank" > <img src="https://photo.xiangming.site/img/blogscn.png" alt="本站已加入BLOGS·CN" style="width:auto;height:15px;"> </a>
+        <a href="https://blogscn.fun/" title="BLOGS·CN" target="_blank" > <img src="/links/blogcn.png" alt="本站已加入BLOGS·CN" style="width:auto;height:15px;"> </a>
     </section>
 </footer>
