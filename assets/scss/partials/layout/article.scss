@@ -304,8 +304,7 @@
         gap: 10px;
 
         figure {
-            margin-right: 28px;
-            margin-left: 30px;
+            margin: 0;
         }
     }
 
@@ -435,12 +434,12 @@
     blockquote,
     figure,
     .highlight,
+    .gallery,
     pre  {
         width: 100%
     }
 
     /// Negative margins2
-    .gallery,
     .video-wrapper,
     .table-wrapper,
     .s_video_simple  {
