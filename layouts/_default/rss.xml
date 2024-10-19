@@ -45,4 +45,8 @@
         </item>
         {{ end }}
     </channel>
+    <follow_challenge>
+        <feedId>61654936908924928</feedId>
+        <userId>69904091301620736</userId>
+    </follow_challenge>
 </rss>
