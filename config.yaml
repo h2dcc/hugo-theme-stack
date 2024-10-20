@@ -7,7 +7,7 @@ params:
     mainSections:
         - post
     featuredImageField: image
-    rssFullContent: false
+    rssFullContent: true
     favicon:
 
     footer:
