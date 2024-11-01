@@ -135,6 +135,7 @@
         color: var(--accent-color);
         margin: 0;
         font-size: 1.6rem;
+        align-self: center;
 
         @include respond(2xl) {
             font-size: 1.8rem;
