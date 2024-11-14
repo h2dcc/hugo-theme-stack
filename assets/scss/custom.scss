@@ -11,3 +11,19 @@
     padding-top: 0px;
     gap: 5px
   }
+  
+  /* Style the "Load More" button */
+.load-more {
+  background-color: #1c5797;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.load-more:hover {
+  background-color: #0056b3;
+}

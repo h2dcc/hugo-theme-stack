@@ -1,0 +1,54 @@
+{{ define "main" }} 
+<section class="article-list">
+    {{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+    {{ $notHidden := where $pages "Params.categories" "intersect" (slice "moments" "瞬间") }}
+    {{ $filtered := ($pages | intersect $notHidden) }}
+  
+    <!-- Show first 10 articles initially -->
+    {{ $pageSize := 5 }}
+    {{ $totalArticles := len $filtered }}
+  
+    <!-- Render all articles, but hide them initially -->
+    {{ range $index, $element := $filtered }}
+      <div class="article-item" style="display: {{ if lt $index $pageSize }}block{{ else }}none{{ end }};">
+        {{ partial "article-list/default" . }}  <!-- Use the original partial to render the article -->
+      </div>
+    {{ end }}
+  </section>
+
+  <!-- Load More button -->
+  {{ if lt $pageSize $totalArticles }}
+    <button id="loadMoreBtn" class="load-more">加载更多</button>
+  {{ end }}
+
+{{ partialCached "footer/footer" . }}
+
+
+
+<!-- JavaScript to handle load more functionality -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const articleItems = document.querySelectorAll('.article-item');
+    
+    let currentIndex = 10;  // Initially show 10 articles
+    const pageSize = 10;  // Load 10 more articles each time
+
+    loadMoreBtn.addEventListener('click', function() {
+      const nextArticles = Array.from(articleItems).slice(currentIndex, currentIndex + pageSize);
+
+      nextArticles.forEach(function(article) {
+        article.style.display = 'block';  // Show the next set of articles
+      });
+
+      currentIndex += pageSize;
+
+      // If all articles are loaded, hide the button
+      if (currentIndex >= articleItems.length) {
+        loadMoreBtn.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+{{ end }}
