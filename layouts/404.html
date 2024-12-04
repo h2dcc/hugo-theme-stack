@@ -3,14 +3,6 @@
         <h1 class="article-title">{{ T "notFound.title" }}</h1>
         <h2 class="article-subtitle">{{ T "notFound.subtitle" }}</h2>
     </div>
-
-    {{ $scratch := newScratch }}
-    {{ range (where .Site.Pages "Kind" "page") }}
-        {{ if .WordCount }}
-            {{ $scratch.Add "total" .WordCount }}
-        {{ end }}
-    {{ end }}
-
     {{- $query := first 1 (where .Site.Pages "Layout" "==" "search") -}}
     {{- $searchPage := index $query 0 -}}
 
@@ -29,8 +21,6 @@
         <div class="search-result">
             <h3 class="search-result--title section-title"></h3>
             <div class="search-result--list article-list--compact"></div>
-            <br>
-            <h3 class="search-result--title section-title">本站共{{ len (where .Site.RegularPages "Section" "post") }} 篇文章, 总计 {{ $scratch.Get "total" }} 字。</h3>
         </div>
         
         <script>
