@@ -7,14 +7,6 @@
         {{ end }}
         {{ now.Format "2006" }} {{ default .Site.Title .Site.Copyright }}
     </section>
-    
-    {{ $scratch := newScratch }}
-    {{ range (where .Site.Pages "Kind" "page") }}
-        {{ if .WordCount }}
-            {{ $scratch.Add "total" .WordCount }}
-        {{ end }}
-    {{ end }}
-
 
     <section class="powerby">
         {{ with .Site.Params.footer.customText }}
@@ -24,7 +16,6 @@
         {{- $Generator := `<a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>` -}}
         {{- $Theme := printf `<b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="%s">Stack</a></b>` $ThemeVersion -}}
         {{- $DesignedBy := `<a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>` -}}
-        本站共{{ len (where .Site.RegularPages "Section" "post") }} 篇文章, 总计 {{ $scratch.Get "total" }} 字。<br>
         Built with Hugo & Stack, Powered by Github.<br>
         <a href="https://blogscn.fun/" title="BLOGS·CN" target="_blank" > <img src="/links/blogcn.png" alt="本站已加入BLOGS·CN" style="width:auto;height:10px;"> </a>
     </section>
