@@ -7,6 +7,26 @@
     {{ $pages := where .Site.RegularPages "Section" "in" .Site.Params.mainSections }}
     {{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
     {{ $filtered := ($pages | intersect $notHidden) }}
+    
+    {{/* 按发布时间从新到旧排序 */}}
+    {{ $filtered = $filtered.ByDate.Reverse }}
+    
+    {{/* 获取 "瞬间" 分类下的所有文章 */}}
+    {{ $shunjian := where $filtered "Params.categories" "intersect" (slice "瞬间") }}
+    
+    {{/* 保留 "瞬间" 分类下的最新两篇文章 */}}
+    {{ $shunjianLatest := first 2 $shunjian }}
+    
+    {{/* 排除 "瞬间" 分类下的其他文章 */}}
+    {{ $filtered = $filtered | complement $shunjian }}
+    
+    {{/* 将最新的两篇 "瞬间" 文章重新插入到它们原本的位置 */}}
+    {{ $filtered = $filtered | append $shunjianLatest }}
+    
+    {{/* 重新按发布时间排序 */}}
+    {{ $filtered = $filtered.ByDate.Reverse }}
+    
+    {{/* 进行分页 */}}
     {{ $pag := .Paginate ($filtered) }}
 
 {{/* 
