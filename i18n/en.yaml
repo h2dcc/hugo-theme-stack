@@ -74,3 +74,9 @@ footer:
 
 site-description:
     other: Legal Practitioners
+
+total_words:
+  other: "Total Words: {{ .Count }}."
+
+total_posts:
+  other: "Total Posts: {{ .Count }},"
