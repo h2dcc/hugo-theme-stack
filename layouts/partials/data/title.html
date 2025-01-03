@@ -1,5 +1,5 @@
 {{- $title := .Title -}}
-{{- $siteTitle := .Site.Title -}}
+{{- $siteTitle := .Site.Params.sidebar.subtitle -}}
 
 {{- if .IsHome -}}
     <!-- Homepage, and it's pagination -->
