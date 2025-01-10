@@ -70,7 +70,7 @@ site-description:
     other: 法学法律工作者
 
 total_words:
-  other: "合计 {{ .Count }} 字"
+  other: "合计约 {{ .Count }} 字"
 
 total_posts:
-  other: "全站共 {{ .Count }} 篇文章"
+  other: "全站约 {{ .Count }} 篇文章"
