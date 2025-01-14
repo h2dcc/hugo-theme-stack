@@ -43,6 +43,10 @@
                 {{ "<" | html }}img src="{{ $image.permalink | absURL }}" alt="Featured image of post {{ .Title }}" {{ "/>" | html}}
             {{- end -}}{{ $content }}</description>
         </item>
+        <follow_challenge>
+            <feedId>101935273430450176</feedId>
+            <userId>69904091301620736</userId>
+        </follow_challenge>
         {{ end }}
     </channel>
 </rss>
