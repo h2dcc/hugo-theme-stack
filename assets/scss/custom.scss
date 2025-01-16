@@ -1,5 +1,5 @@
 .article-summary {
-    font-size: 16px; /* 设置字体大小 */
+    font-size: 1.4rem; /* 设置字体大小 */
     color: var(--body-text-color); /* 设置字体颜色 */
     margin: 0px; /* 设置底部外边距 */
     line-height: 1.5; /* 设置行高 */
@@ -30,4 +30,28 @@
 
 .sidebar header .site-description {
   text-align: center; 
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  unicode-bidi: isolate;
+}
+
+h3 {
+  font-size: 1.7rem;
+  font-weight: bold;
+  unicode-bidi: isolate;
+}
+
+h4 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  unicode-bidi: isolate;
+}
+
+h5 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  unicode-bidi: isolate;
 }

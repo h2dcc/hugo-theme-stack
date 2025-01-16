@@ -11,7 +11,7 @@ $defaultTagColors: #fff, #fff, #fff, #fff, #fff;
         --main-top-padding: 50px;
     }
 
-    --body-background: #f5f5fa;
+    --body-background: #e5e5e5;
 
     --accent-color: #34495e;
     --accent-color-darker: #2c3e50;
@@ -44,7 +44,7 @@ $defaultTagColors: #fff, #fff, #fff, #fff, #fff;
     --zh-font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
 
     --base-font-family: "Lato", var(--sys-font-family), var(--zh-font-family), sans-serif;
-    --code-font-family: "Fira Code", "Source Code Pro", Menlo, Monaco, Consolas, "Courier New", monospace;
+    --code-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Fira Code", "Source Code Pro", Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 /*
@@ -92,10 +92,10 @@ $defaultTagColors: #fff, #fff, #fff, #fff, #fff;
 */
 :root {
     --article-font-family: var(--base-font-family);
-    --article-font-size: 1.6rem;
+    --article-font-size: 1.5rem;
 
     @include respond(md) {
-        --article-font-size: 1.7rem;
+        --article-font-size: 1.5rem;
     }
 
     --article-line-height: 1.85;
@@ -117,8 +117,8 @@ $defaultTagColors: #fff, #fff, #fff, #fff, #fff;
     --pre-background-color: #272822;
     --pre-text-color: #f8f8f2;
 
-    --code-background-color: rgba(0, 0, 0, 0.12);
-    --code-text-color: #808080;
+    --code-background-color: rgba(159, 159, 159, 0.12);
+    --code-text-color: #000000;
 
     --table-border-color: #dadada;
     --tr-even-background-color: #efefee;
@@ -126,7 +126,7 @@ $defaultTagColors: #fff, #fff, #fff, #fff, #fff;
     --kbd-border-color: #dadada;
 
     &[data-scheme="dark"] {
-        --code-background-color: #272822;
+        --code-background-color: #3c3c3c;
         --code-text-color: rgba(255, 255, 255, 0.9);
 
         --table-border-color: #717171;

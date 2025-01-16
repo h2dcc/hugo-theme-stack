@@ -53,7 +53,7 @@
             }
 
             .site-name {
-                font-size: 1.4rem;
+                font-size: 1.7rem;
 
                 @include respond(2xl) {
                     font-size: 1.75rem;
@@ -61,7 +61,7 @@
             }
 
             .site-description {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
             }
         }
     }
@@ -134,7 +134,7 @@
     .site-name {
         color: var(--accent-color);
         margin: 0;
-        font-size: 1.6rem;
+        font-size: 1.7rem;
         align-self: center;
 
         @include respond(2xl) {
@@ -146,7 +146,7 @@
         color: var(--body-text-color);
         font-weight: normal;
         margin: 0;
-        font-size: 1.4rem;
+        font-size: 1.6rem;
 
         @include respond(2xl) {
             font-size: 1.6rem;
