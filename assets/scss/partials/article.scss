@@ -106,7 +106,7 @@
 
     time,
     a {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         color: var(--card-text-color-tertiary);
     }
 
@@ -136,10 +136,10 @@
     a {
         color: var(--accent-color-text);
         background-color: var(--accent-color);
-        padding: 8px 16px;
+        padding: 4px 6px;
         border-radius: var(--tag-border-radius);
         display: inline-block;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         transition: background-color 0.5s ease;
 
         &:hover {
@@ -197,11 +197,11 @@
         }
 
         .article-time {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
         .article-preview {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--card-text-color-tertiary);
             margin-top: 10px;
             line-height: 1.5;
