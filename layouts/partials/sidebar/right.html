@@ -13,9 +13,8 @@
             {{ end }}
         {{ end }}
 
-        {{ $rssUrl := "https://news.lawtee.com/feed/" }} <!-- 替换为你的 RSS 地址 -->
-        {{ $rss := resources.GetRemote $rssUrl }}
-        {{ $items := $rss | transform.Unmarshal }}
+        {{ $rssData := readFile "data/rss.xml" | transform.Unmarshal }}
+
         <section class="widget archives">
             <div class="widget-icon">
                 {{ partial "helper/icon" "rss" }}
@@ -25,11 +24,15 @@
             </h2>
             <div class="widget-archive--list">
                 <ul>
-            {{ range first 7 $items.channel.item }} 
-                <li>
-                    <a href="{{ .link }}" target="_blank">{{ .title }}</a>
-                </li>
-            {{ end }}
+                    {{ if $rssData.channel.item }}
+                        {{ range first 7 $rssData.channel.item }}
+                            <li>
+                                <a href="{{ .link }}" target="_blank">{{ .title }}</a>
+                            </li>
+                        {{ end }}
+                    {{ else }}
+                        <li>No items available</li>
+                    {{ end }}
                 </ul>
             </div>
         </section>            
