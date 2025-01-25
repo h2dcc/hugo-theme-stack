@@ -14,47 +14,34 @@
         {{ end }}
 
         
+<!-- 确保 $posts 在全局作用域中定义 -->
+        {{ $posts := slice }}
+
         {{ $url := "https://news.lawtee.com/wp-json/wp/v2/posts?per_page=7" }}
         {{ $remoteData := resources.GetRemote $url }}
         {{ if $remoteData }}
-            {{ $posts := $remoteData | transform.Unmarshal }}
-            {{ if $posts }}
-                <section class="widget archives">
-                    <!-- 正常渲染 -->
-                </section>
-            {{ else }}
-                <!-- 数据解析失败 -->
-                <div class="alert">API 数据解析失败</div>
-            {{ end }}
-        {{ else }}
-            <!-- 请求失败 -->
-            <div class="alert">无法连接 API</div>
+            {{ $posts = $remoteData | transform.Unmarshal }}
         {{ end }}
-        
-        <section class="widget archives">
-            <div class="widget-icon">
-                {{ partial "helper/icon" "rss" }}
-            </div>
-            <h2 class="widget-title section-title">
-                <a href="https://news.lawtee.com/" target="_blank">News</a>
-            </h2>
-            <div class="widget-archive--list">
-                <ul>
-                    {{ if $posts }}
+
+
+            <section class="widget archives">
+                <div class="widget-icon">
+                    {{ partial "helper/icon" "rss" }}
+                </div>
+                <h2 class="widget-title section-title">
+                    <a href="https://news.lawtee.com/" target="_blank">News</a>
+                </h2>
+                <div class="widget-archive--list">
+                    <ul>
                         {{ range $posts }}
-                            <!-- 强制类型断言：确保 . 是 map 类型 -->
-                            {{ if and (reflect.IsMap .) (isset . "link") (isset . "title") }}
-                                <li>
-                                    <a href="{{ .link }}" target="_blank">{{ .title.rendered }}</a>
-                                </li>
-                            {{ else }}
-                                <li>数据格式异常</li>
-                            {{ end }}
+                            <li>
+                                <a href="{{ .link }}" target="_blank">{{ .title.rendered }}</a>
+                            </li>
+                        {{ else }}
+                            <li>暂时没有最新文章</li>
                         {{ end }}
-                    {{ else }}
-                        <li>无法加载文章列表</li>
-                    {{ end }}
-                </ul>
-            </div>
-        </section>
+                    </ul>
+                </div>
+            </section>
+    </aside>
 {{ end }}
