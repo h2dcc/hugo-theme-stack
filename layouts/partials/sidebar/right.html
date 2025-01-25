@@ -13,8 +13,10 @@
             {{ end }}
         {{ end }}
 
-        {{ $rssData := readFile "data/rss.xml" | transform.Unmarshal }}
-
+        
+        {{ $url := "https://news.lawtee.com/wp-json/wp/v2/posts?per_page=7" }}
+        {{ $remoteData := resources.GetRemote $url }}
+        {{ $posts := $remoteData | transform.Unmarshal }}
         <section class="widget archives">
             <div class="widget-icon">
                 {{ partial "helper/icon" "rss" }}
@@ -24,17 +26,17 @@
             </h2>
             <div class="widget-archive--list">
                 <ul>
-                    {{ if $rssData.channel.item }}
-                        {{ range first 7 $rssData.channel.item }}
-                            <li>
-                                <a href="{{ .link }}" target="_blank">{{ .title }}</a>
-                            </li>
-                        {{ end }}
-                    {{ else }}
-                        <li>No items available</li>
+                    {{ range $posts }}
+                        <li>
+                            <a 
+                                href="{{ .link | default "#" }}" 
+                                target="_blank"
+                            >
+                                {{ .title.rendered | default "未命名文章" }}
+                            </a>
+                        </li>
                     {{ end }}
                 </ul>
             </div>
-        </section>            
-    </aside>
+        </section>
 {{ end }}
