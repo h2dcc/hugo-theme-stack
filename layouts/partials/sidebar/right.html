@@ -17,6 +17,7 @@
         {{ $url := "https://news.hyruo.com/wp-json/wp/v2/posts?per_page=7" }}
         {{ $remoteData := resources.GetRemote $url }}
         {{ $posts := $remoteData | transform.Unmarshal }}
+        
         <section class="widget archives">
             <div class="widget-icon">
                 {{ partial "helper/icon" "rss" }}
@@ -26,11 +27,25 @@
             </h2>
             <div class="widget-archive--list">
                 <ul>
-                     {{ range $posts }}
-                    <li><a href="{{ .link }}" target="_blank">{{ .title.rendered }}</a></li>
-                     {{ end }}
+                    {{ if $posts }}
+                        {{ range $posts }}
+                            {{ if .link }}
+                                <li>
+                                    <a href="{{ .link }}" target="_blank">{{ .title.rendered | safeHTML }}</a>
+                                </li>
+                            {{ else if .guid }}
+                                <li>
+                                    <a href="{{ .guid.rendered }}" target="_blank">{{ .title.rendered | safeHTML }}</a>
+                                </li>
+                            {{ else }}
+                                <li>Invalid post data</li>
+                            {{ end }}
+                        {{ end }}
+                    {{ else }}
+                        <li>No posts available</li>
+                    {{ end }}
                 </ul>
-           </div>
+            </div>
         </section>
     </aside>
 {{ end }}
