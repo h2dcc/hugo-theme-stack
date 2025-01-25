@@ -13,11 +13,9 @@
             {{ end }}
         {{ end }}
 
-        
-        {{ $url := "https://news.hyruo.com/wp-json/wp/v2/posts?per_page=7" }}
-        {{ $remoteData := resources.GetRemote $url }}
-        {{ $posts := $remoteData | transform.Unmarshal }}
-        
+        {{ $rssUrl := "https://news.lawtee.com/feed/" }} <!-- 替换为你的 RSS 地址 -->
+        {{ $rss := resources.GetRemote $rssUrl }}
+        {{ $items := $rss | transform.Unmarshal }}
         <section class="widget archives">
             <div class="widget-icon">
                 {{ partial "helper/icon" "rss" }}
@@ -27,25 +25,13 @@
             </h2>
             <div class="widget-archive--list">
                 <ul>
-                    {{ if $posts }}
-                        {{ range $posts }}
-                            {{ if .link }}
-                                <li>
-                                    <a href="{{ .link }}" target="_blank">{{ .title.rendered | safeHTML }}</a>
-                                </li>
-                            {{ else if .guid }}
-                                <li>
-                                    <a href="{{ .guid.rendered }}" target="_blank">{{ .title.rendered | safeHTML }}</a>
-                                </li>
-                            {{ else }}
-                                <li>Invalid post data</li>
-                            {{ end }}
-                        {{ end }}
-                    {{ else }}
-                        <li>No posts available</li>
-                    {{ end }}
+            {{ range first 7 $items.channel.item }} 
+                <li>
+                    <a href="{{ .link }}" target="_blank">{{ .title }}</a>
+                </li>
+            {{ end }}
                 </ul>
             </div>
-        </section>
+        </section>            
     </aside>
 {{ end }}
