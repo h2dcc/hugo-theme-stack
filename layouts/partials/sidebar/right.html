@@ -13,7 +13,7 @@
             {{ end }}
         {{ end }}
 
-        {{ $url := "https://news.hyruo.com/wp-json/wp/v2/posts?per_page=7" }}
+        {{ $url := "https://web.mji.ro/wp-json/wp/v2/posts?per_page=7" }}
         {{ $remoteData := resources.GetRemote $url }}
         {{ $posts := slice }}
         
