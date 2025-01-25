@@ -14,34 +14,34 @@
         {{ end }}
 
         
-<!-- 确保 $posts 在全局作用域中定义 -->
-        {{ $posts := slice }}
-
         {{ $url := "https://news.lawtee.com/wp-json/wp/v2/posts?per_page=7" }}
         {{ $remoteData := resources.GetRemote $url }}
+        {{ $posts := slice }}
+        
         {{ if $remoteData }}
-            {{ $posts = $remoteData | transform.Unmarshal }}
+          {{ $parsedData := $remoteData | transform.Unmarshal }}
+          {{ if reflect.IsSlice $parsedData }} <!-- 确保解析后是数组 -->
+            {{ range $parsedData }}
+              <!-- 检查每个条目是否为 map，并包含必要字段 -->
+              {{ if and (reflect.IsMap .) (isset . "link") (isset . "title") (isset .title "rendered") }}
+                {{ $posts = $posts | append . }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
         {{ end }}
-
-
-            <section class="widget archives">
-                <div class="widget-icon">
-                    {{ partial "helper/icon" "rss" }}
-                </div>
-                <h2 class="widget-title section-title">
-                    <a href="https://news.lawtee.com/" target="_blank">News</a>
-                </h2>
-                <div class="widget-archive--list">
-                    <ul>
-                        {{ range $posts }}
-                            <li>
-                                <a href="{{ .link }}" target="_blank">{{ .title.rendered }}</a>
-                            </li>
-                        {{ else }}
-                            <li>暂时没有最新文章</li>
-                        {{ end }}
-                    </ul>
-                </div>
-            </section>
+        
+        <section class="widget archives">
+            <div class="widget-archive--list">
+                <ul>
+                    {{ range $posts }}
+                        <li>
+                            <a href="{{ .link }}" target="_blank">{{ .title.rendered }}</a>
+                        </li>
+                    {{ else }}
+                        <li>暂无最新文章</li>
+                    {{ end }}
+                </ul>
+            </div>
+        </section>
     </aside>
 {{ end }}
