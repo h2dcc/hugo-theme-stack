@@ -12,5 +12,25 @@
                 {{ warnf "Widget %s not found" .type }}
             {{ end }}
         {{ end }}
+
+        
+        {{ $url := "https://news.hyruo.com/wp-json/wp/v2/posts?per_page=7" }}
+        {{ $remoteData := resources.GetRemote $url }}
+        {{ $posts := $remoteData | transform.Unmarshal }}
+        <section class="widget archives">
+            <div class="widget-icon">
+                {{ partial "helper/icon" "rss" }}
+            </div>
+            <h2 class="widget-title section-title">
+                <a href="https://news.lawtee.com/" target="_blank">News</a>
+            </h2>
+            <div class="widget-archive--list">
+                <ul>
+                     {{ range $posts }}
+                    <li><a href="{{ .link }}" target="_blank">{{ .title.rendered }}</a></li>
+                     {{ end }}
+                </ul>
+           </div>
+        </section>
     </aside>
 {{ end }}
