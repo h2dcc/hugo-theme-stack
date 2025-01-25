@@ -74,3 +74,6 @@ total_words:
 
 total_posts:
   other: "全站约 {{ .Count }} 篇文章"
+
+news_title:
+  other: "动态"

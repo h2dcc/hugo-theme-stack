@@ -80,3 +80,6 @@ total_words:
 
 total_posts:
   other: "Total Posts: {{ .Count }},"
+
+news_title:
+  other: "News"

@@ -13,7 +13,6 @@
             {{ end }}
         {{ end }}
 
-        
         {{ $url := "https://news.hyruo.com/wp-json/wp/v2/posts?per_page=7" }}
         {{ $remoteData := resources.GetRemote $url }}
         {{ $posts := slice }}
@@ -29,8 +28,14 @@
             {{ end }}
           {{ end }}
         {{ end }}
-        
+
         <section class="widget archives">
+            <div class="widget-icon">
+                {{ partial "helper/icon" "clock" }}
+            </div>
+            <h2 class="widget-title section-title">
+                <a href="https://news.lawtee.com/" target="_blank">{{ i18n "news_title" }}</a>
+            </h2>        
             <div class="widget-archive--list">
                 <ul>
                     {{ range $posts }}
