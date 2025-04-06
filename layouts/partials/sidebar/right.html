@@ -13,40 +13,41 @@
             {{ end }}
         {{ end }}
 
-        {{ $url := "https://web.mji.ro/wp-json/wp/v2/posts?per_page=7" }}
-        {{ $remoteData := resources.GetRemote $url (dict "cache" false) }}
-        {{ $posts := slice }}
-        
-        {{ if $remoteData }}
-          {{ $parsedData := $remoteData | transform.Unmarshal }}
-          {{ if reflect.IsSlice $parsedData }} <!-- 确保解析后是数组 -->
-            {{ range $parsedData }}
-              <!-- 检查每个条目是否为 map，并包含必要字段 -->
-              {{ if and (reflect.IsMap .) (isset . "link") (isset . "title") (isset .title "rendered") }}
-                {{ $posts = $posts | append . }}
-              {{ end }}
-            {{ end }}
-          {{ end }}
-        {{ end }}
+        {{/* {{ $url := "https://web.mji.ro/wp-json/wp/v2/posts?per_page=7" }}*/}}
+        {{/*{{ $remoteData := resources.GetRemote $url (dict "cache" false) }} */}}
+        {{/*{{ $posts := slice }} */}}
+         
+       {{/* {{ if $remoteData }} */}}
+        {{/*  {{ $parsedData := $remoteData | transform.Unmarshal }} */}}
+        {{/*  {{ if reflect.IsSlice $parsedData }} <!-- 确保解析后是数组 --> */}}
+        {{/*    {{ range $parsedData }} */}}
+        {{/*      <!-- 检查每个条目是否为 map，并包含必要字段 --> */}}
+         {{/*     {{ if and (reflect.IsMap .) (isset . "link") (isset . "title") (isset .title "rendered") }} */}}
+         {{/*       {{ $posts = $posts | append . }} */}}
+         {{/*     {{ end }} */}}
+         {{/*   {{ end }} */}}
+         {{/* {{ end }} */}}
+       {{/* {{ end }}*/}}
 
-        <section class="widget archives">
-            <div class="widget-icon">
-                {{ partial "helper/icon" "clock" }}
-            </div>
-            <h2 class="widget-title section-title">
-                <a href="https://news.lawtee.com/" target="_blank">{{ i18n "news_title" }}</a>
-            </h2>        
-            <div class="widget-archive--list">
-                <ul>
-                    {{ range $posts }}
-                        <li>
-                            <a href="{{ .link }}" target="_blank">{{ .title.rendered }}</a>
-                        </li>
-                    {{ else }}
-                        <li>暂无最新文章</li>
-                    {{ end }}
-                </ul>
-            </div>
-        </section>
+        {{/* <section class="widget archives">*/}}
+        {{/*     <div class="widget-icon">*/}}
+         {{/*        {{ partial "helper/icon" "clock" }}*/}}
+         {{/*    </div>*/}}
+         {{/*    <h2 class="widget-title section-title">*/}}
+         {{/*        <a href="https://news.lawtee.com/" target="_blank">{{ i18n "news_title" }}</a>*/}}
+          {{/*   </h2>        */}}
+          {{/*   <div class="widget-archive--list">*/}}
+          {{/*       <ul>*/}}
+           {{/*          {{ range $posts }}*/}}
+            {{/*             <li>*/}}
+             {{/*                <a href="{{ .link }}" target="_blank">{{ .title.rendered }}</a>*/}}
+             {{/*            </li>*/}}
+             {{/*        {{ else }}*/}}
+             {{/*            <li>暂无最新文章</li>*/}}
+             {{/*        {{ end }}*/}}
+             {{/*    </ul>*/}}
+           {{/*  </div>*/}}
+       {{/*  </section>*/}}
     </aside>
 {{ end }}
+
