@@ -1,41 +1,45 @@
-{{- $destination := .Destination | safeURL -}}
-{{- $filename := path.Base $destination -}}
-{{- $image := .Page.Resources.GetMatch $filename -}}
+{{- $image := .Page.Resources.GetMatch (printf "%s" (.Destination | safeURL)) -}}
+{{- $Permalink := .Destination | relURL | safeURL -}}
+{{- $alt := .PlainText | safeHTML -}}
+{{- $Width := 0 -}}
+{{- $Height := 0 -}}
+{{- $Srcset := "" -}}
+
+{{/* SVG and external images won't work with gallery layout, because their width and height attributes are unknown */}}
+{{- $galleryImage := false -}}
 
 {{- if $image -}}
-  {{- $permalink := $image.RelPermalink | safeURL -}}
-  {{- $alt := .PlainText | safeHTML -}}
-  {{- $width := $image.Width -}}
-  {{- $height := $image.Height -}}
-  {{- $srcset := "" -}}
+	{{- $notSVG := ne (path.Ext .Destination) ".svg" -}}
+	{{- $Permalink = $image.RelPermalink -}}
 
-  {{/* SVG和外部图片不会工作与gallery布局，因为它们的width和height属性未知 */}}
-  {{- $notSVG := ne (path.Ext $filename) ".svg" -}}
-  {{- $galleryImage := false -}}
+	{{- if $notSVG -}}
+		{{- $Width = $image.Width -}}
+		{{- $Height = $image.Height -}}
+		{{- $galleryImage = true -}}
 
-  {{- if $notSVG -}}
-      {{- $width = $image.Width -}}
-      {{- $height = $image.Height -}}
-      {{- $galleryImage = true -}}
+		{{- if (default true .Page.Site.Params.imageProcessing.content.enabled) -}}
+			{{- $small := $image.Resize `480x` -}}
+			{{- $big := $image.Resize `1024x` -}}
+			{{- $Srcset = printf `%s 480w, %s 1024w` $small.RelPermalink $big.RelPermalink -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
 
-      {{- if (default true .Page.Site.Params.imageProcessing.content.enabled) -}}
-          {{- $small := $image.Resize "480x" -}}
-          {{- $big := $image.Resize "1024x" -}}
-          {{- $srcset = printf "%s 480w, %s 1024w" $small.RelPermalink $big.RelPermalink -}}
-      {{- end -}}
-  {{- end -}}
+<img src="{{ $Permalink }}"
+	{{ with $Width }}width="{{ . }}"{{ end }}
+	{{ with $Height }}height="{{ . }}"{{ end }}
+	{{ with $Srcset }}srcset="{{ . }}"{{ end }}
+	loading="lazy"
+	{{ with $alt }}
+		alt="{{ . }}"
+	{{ end }}
+	{{ if $galleryImage }}
+		class="gallery-image" 
+		data-flex-grow="{{ div (mul $image.Width 100) $image.Height }}"
+		data-flex-basis="{{ div (mul $image.Width 240) $image.Height }}px"
+	{{ end }}
+>
 
-  <img src="{{ $permalink }}"
-       {{ with $width }}width="{{ . }}"{{ end }}
-       {{ with $height }}height="{{ . }}"{{ end }}
-       {{ with $srcset }}srcset="{{ . }}"{{ end }}
-       loading="lazy"
-       {{ with $alt }}alt="{{ . }}"{{ end }}
-       {{ if $galleryImage }}
-           class="gallery-image"
-           data-flex-grow="{{ div (mul $image.Width 100) $image.Height }}"
-           data-flex-basis="{{ div (mul $image.Width 240) $image.Height }}px"
-       {{ end }}>
 {{- else -}}
   <!-- 处理图片未找到的情况 -->
   <img src="{{ "links/error.webp" | relURL }}" alt="Default Image" loading="lazy">
