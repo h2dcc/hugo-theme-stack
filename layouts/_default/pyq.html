@@ -1,11 +1,20 @@
 {{ define "main" }}
 <article class="main-article">
+    {{/* 使用双重缓存破坏机制 */}}
+    {{ $cacheBuster := now.Unix }}
+    {{ $issueID := 1 }} {{/* 您的Issue ID */}}
+    {{ $repo := "h2dcc/lawtee.github.io" }} {{/* 您的仓库 */}}
     
-  
-    {{ $url := "https://api.github.com/repos/h2dcc/lawtee.github.io/issues/1/comments" }}
-    {{ $opts := dict 
-        "headers" (dict "User-Agent" "Hugo Static Site Generator")
-    }}
+    {{/* 构建API URL - 添加时间戳和随机数双重缓存破坏 */}}
+    {{ $url := printf "https://api.github.com/repos/%s/issues/%d/comments?_c=%d&rand=%d" $repo $issueID $cacheBuster (mul now.Unix (index (shuffle (seq 1 100)) 0)) }}
+    
+    {{/* 处理GitHub授权 */}}
+    {{ $token := getenv "GITHUB_TOKEN" }}
+    {{ $headers := dict "User-Agent" "Hugo Static Site Generator" }}
+    {{ if $token }}
+        {{ $headers = merge $headers (dict "Authorization" (printf "Bearer %s" $token)) }}
+    {{ end }}
+    {{ $opts := dict "headers" $headers }}
   
     {{ with resources.GetRemote $url $opts }}
         {{ if and .Content (ne .Content "") }}
