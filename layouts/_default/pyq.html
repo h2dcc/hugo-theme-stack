@@ -1,0 +1,154 @@
+{{ define "main" }}
+<article class="main-article">
+    
+  
+    {{ $url := "https://api.github.com/repos/h2dcc/lawtee.github.io/issues/1/comments" }}
+    {{ $opts := dict 
+        "headers" (dict "User-Agent" "Hugo Static Site Generator")
+    }}
+  
+    {{ with resources.GetRemote $url $opts }}
+        {{ if and .Content (ne .Content "") }}
+            {{ $comments := .Content | transform.Unmarshal (dict "format" "json") }}
+            <div class="moments-feed">
+                {{ range $comments }}
+                    <article class="moment-article">
+                        <header class="article-header">
+                            <div class="article-details">
+                                <footer class="article-time">
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="var(--card-text-color-secondary)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z"></path>
+                                            <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4"></path>
+                                            <circle cx="18" cy="18" r="4"></circle>
+                                            <path d="M15 3v4"></path>
+                                            <path d="M7 3v4"></path>
+                                            <path d="M3 11h16"></path>
+                                            <path d="M18 16.496v1.504l1 1"></path>
+                                        </svg>
+                                        <time>{{ .created_at | time.Format "2006-01-02 15:04" }}</time>
+                                    </div>
+                                </footer>
+                            </div>
+                        </header>
+            
+                        <section class="article-content">
+                            <div class="moment-content">
+                                {{ .body | markdownify }}
+                            </div>
+                        </section>
+                    </article>
+                {{ else }}
+                    <p>暂无动态</p>
+                {{ end }}
+            </div>
+        {{ else }}
+            <p class="no-content">内容为空</p>
+        {{ end }}
+    {{ else }}
+        <p class="error">⚠️ 无法获取评论</p>
+    {{ end }}
+</article>
+  
+{{ if not (eq .Params.comments false) }}
+    {{ partial "comments/include" . }}
+{{ end }}
+
+{{ partialCached "footer/footer" . }}
+  
+<style>
+    /* 图片溢出修复 */
+    .moment-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        border-radius: var(--card-border-radius);
+    }
+    
+    /* 保留原始其他样式 */
+    .moments-feed {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .moment-article {
+        background: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: 1.5rem;
+        border: 1px solid var(--card-border-color);
+        transition: all 0.3s ease;
+    }
+    
+    .moment-article:hover {
+        box-shadow: var(--shadow-l2);
+        transform: translateY(-3px);
+    }
+    
+    .article-time {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 0.8rem;
+        color: var(--card-text-color-secondary);
+        font-size: 1.4rem;
+    }
+    
+    .article-time svg {
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+    
+    .article-time time {
+        color: var(--card-text-color-secondary);
+        font-size: 1.4rem;
+    }
+    
+    .moment-content {
+        color: var(--card-text-color-main);
+        font-family: var(--article-font-family);
+        font-size: 1.5rem;
+        line-height: 1.7;
+    }
+    
+    .moment-content p {
+        margin: 1.5rem 0;
+    }
+    
+    .moment-content a {
+        color: var(--link-color);
+        text-decoration: none;
+        border-bottom: 1px dotted var(--link-underline-color);
+        transition: all 0.3s ease;
+    }
+    
+    .moment-content a:hover {
+        color: var(--link-hover-color);
+        border-bottom: 1px solid var(--link-underline-hover-color);
+    }
+    
+    .no-content, .error {
+        padding: 2rem;
+        text-align: center;
+        font-style: italic;
+        color: var(--card-text-color-secondary);
+    }
+    
+    /* 新增的标题样式 */
+    .article-title-wrapper {
+        margin-bottom: 1rem;
+    }
+    
+    .article-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.25;
+        color: var(--card-text-color-main);
+    }
+</style>
+{{ end }}
