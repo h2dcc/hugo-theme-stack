@@ -1,17 +1,19 @@
 {{ define "main" }}
 <article class="main-article">
-    
-  
     {{ $url := "https://api.github.com/repos/h2dcc/moments/issues/1/comments" }}
     {{ $opts := dict 
         "headers" (dict "User-Agent" "Hugo Static Site Generator")
+        "cache" 300
+        "cacheKey" (printf "gh-comments-%s" (now.Format "2006-01-02-15:04"))
     }}
   
     {{ with resources.GetRemote $url $opts }}
         {{ if and .Content (ne .Content "") }}
             {{ $comments := .Content | transform.Unmarshal (dict "format" "json") }}
+            {{ $sortedComments := sort $comments "created_at" "desc" }} 
+            
             <div class="moments-feed">
-                {{ range $comments }}
+                {{ range $sortedComments }}
                     <article class="moment-article">
                         <header class="article-header">
                             <div class="article-details">
@@ -26,7 +28,9 @@
                                             <path d="M3 11h16"></path>
                                             <path d="M18 16.496v1.504l1 1"></path>
                                         </svg>
-                                        <time>{{ .created_at | time.Format "2006-01-02 15:04" }}</time>
+                                        <time>
+                                            {{ (.created_at | time.AsTime).Add 28800e9 | time.Format "2006-01-02 15:04" }}
+                                        </time>
                                     </div>
                                 </footer>
                             </div>
