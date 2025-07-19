@@ -4,9 +4,10 @@
 {{- $Width := 0 -}}
 {{- $Height := 0 -}}
 {{- $Srcset := "" -}}
-
-{{/* SVG和外部图片无法使用画廊布局，因为其宽高未知 */}}
 {{- $galleryImage := false -}}
+
+{{/* 新增：检查是否为外部图片（GitHub等） */}}
+{{- $isExternal := and (not $image) (hasPrefix (lower .Destination) "https://") -}}
 
 {{- if $image -}}
     {{- $notSVG := ne (path.Ext .Destination) ".svg" -}}
@@ -23,22 +24,25 @@
             {{- $Srcset = printf `%s 480w, %s 1024w` $small.RelPermalink $big.RelPermalink -}}
         {{- end -}}
     {{- end -}}
-
-    <img src="{{ $Permalink }}"
-        {{ with $Width }}width="{{ . }}"{{ end }}
-        {{ with $Height }}height="{{ . }}"{{ end }}
-        {{ with $Srcset }}srcset="{{ . }}"{{ end }}
-        loading="lazy"
-        {{ with $alt }}
-            alt="{{ . }}"
-        {{ end }}
-        {{ if $galleryImage }}
-            class="gallery-image" 
-            data-flex-grow="{{ div (mul $image.Width 100) $image.Height }}"
-            data-flex-basis="{{ div (mul $image.Width 240) $image.Height }}px"
-        {{ end }}
-    >
+{{- else if $isExternal -}}
+    {{/* 外部图片直接使用原始URL，跳过资源处理 */}}
+    {{- $Permalink = .Destination | safeURL -}}
 {{- else -}}
-    <!-- 处理图片未找到的情况 -->
-    <img src="{{ "links/error.webp" | relURL }}" alt="Default Image" loading="lazy">
+    {{/* 既非本地也非外部的图片回退到error.webp */}}
+    {{- $Permalink = "links/error.webp" | relURL -}}
 {{- end -}}
+
+<img src="{{ $Permalink }}"
+    {{ with $Width }}width="{{ . }}"{{ end }}
+    {{ with $Height }}height="{{ . }}"{{ end }}
+    {{ with $Srcset }}srcset="{{ . }}"{{ end }}
+    loading="lazy"
+    {{ with $alt }}
+        alt="{{ . }}"
+    {{ end }}
+    {{ if $galleryImage }}
+        class="gallery-image" 
+        data-flex-grow="{{ div (mul $image.Width 100) $image.Height }}"
+        data-flex-basis="{{ div (mul $image.Width 240) $image.Height }}px"
+    {{ end }}
+>
