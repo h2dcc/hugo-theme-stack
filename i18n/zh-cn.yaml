@@ -67,7 +67,8 @@ footer:
         other: 主题 {{ .Theme }} 由 {{ .DesignedBy }} 设计
 
 site-description:
-    other: 基层法律工作者
+    other: 法律人的数智生活
+
 
 total_words:
   other: "合计约 {{ .Count }} 字"
