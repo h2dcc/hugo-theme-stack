@@ -73,7 +73,7 @@ footer:
         other: Theme {{ .Theme }} designed by {{ .DesignedBy }}
 
 site-description:
-    other: Digital Legal Lives
+    other: Legal Tech & Life
 
 total_words:
   other: "Total Words: {{ .Count }}."
