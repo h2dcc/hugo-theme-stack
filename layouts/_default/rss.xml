@@ -44,7 +44,7 @@
             {{- end -}}{{ $content }}</description>
         </item>
         <follow_challenge>
-            <feedId>184139336592795648</feedId>
+            <feedId>61654936908924928</feedId>
             <userId>69904091301620736</userId>
         </follow_challenge>
         {{ end }}
